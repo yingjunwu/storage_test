@@ -117,7 +117,7 @@ void PerformWrite(const Config &config) {
 
     std::string filename = config.directory_ + "/test" + std::to_string(i);
     
-    std::cout << "filename : " << filename << std::endl;
+    // std::cout << "filename : " << filename << std::endl;
     
     auto file = fopen(filename.c_str(), "wb");
     if (file == nullptr) {
@@ -152,10 +152,11 @@ void PerformWrite(const Config &config) {
     total_count += operation_counts[i];
   }
 
-  float operation_throughput = total_count * 1.0 / config.time_duration_ / 1000 / 1000;
-  float bandwidth = operation_throughput * config.data_size_;
+  float iops = total_count * 1.0 / config.time_duration_ / 1000; // K
+  float bandwidth = iops * config.data_size_ / 1000; // MB
+  float latency = 1 / (iops / config.thread_count_);
 
-  printf("thread count = %lu, operation throughput = %.2f M ops, bandwidth = %.2f MB\n", 
+  printf("thread count = %lu, iops = %.2f K ops, bandwidth = %.2f MB, latency = %.2f ms\n", 
     config.thread_count_, operation_throughput, bandwidth);
 
   delete[] operation_counts;
