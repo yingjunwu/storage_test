@@ -157,7 +157,7 @@ void PerformWrite(const Config &config) {
   float latency = 1 / (iops / config.thread_count_);
 
   printf("thread count = %lu, iops = %.2f K ops, bandwidth = %.2f MB, latency = %.2f ms\n", 
-    config.thread_count_, operation_throughput, bandwidth);
+    config.thread_count_, iops, bandwidth, latency);
 
   delete[] operation_counts;
   operation_counts = nullptr;
